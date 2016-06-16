@@ -3,6 +3,8 @@
 
 (def board identity)
 
+(def all-values #{1 2 3 4 5 6 7 8 9})
+
 (defn value-at [board coord]
   (get-in board coord))
 
@@ -28,12 +30,19 @@
         block-coords (coord-pairs (range top-row (+ top-row 3)))]
     (into #{} (map #(value-at board %) block-coords))))
     
-
 (defn valid-values-for [board coord]
-  nil)
+  (if (has-value? board coord)
+    #{}
+    (let [r (row-values board coord)
+          c (col-values board coord)
+          b (block-values board coord)] 
+      (set/difference all-values r c b))))
+
+(defn- board-values [board]
+  (apply set/union (map #(into #{} %) board)))
 
 (defn filled? [board]
-  nil)
+  (not (contains? (board-values board) 0)))
 
 (defn rows [board]
   nil)
