@@ -17,11 +17,17 @@
 
 (defn coord-pairs [coords]
   (into [] (for [row coords
-          col coords]
-      (vector row col))))
+                 col coords]
+              (vector row col))))
+
+(defn- top-left-coord [[row col]]
+  (vector (* 3 (quot row 3)) (* 3 (quot col 3))))
 
 (defn block-values [board coord]
-  nil)
+  (let [top-row (first (top-left-coord coord))
+        block-coords (coord-pairs (range top-row (+ top-row 3)))]
+    (into #{} (map #(value-at board %) block-coords))))
+    
 
 (defn valid-values-for [board coord]
   nil)
