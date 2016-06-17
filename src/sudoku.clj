@@ -45,13 +45,13 @@
   (not (contains? (board-values board) 0)))
 
 (defn rows [board]
-  nil)
+  (map #(into #{} %) board))
 
 (defn valid-rows? [board]
   nil)
 
 (defn cols [board]
-  nil)
+  (map #(col-values board (vector 0 %)) (range 9)))
 
 (defn valid-cols? [board]
   nil)
