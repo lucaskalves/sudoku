@@ -26,8 +26,11 @@
   (vector (* 3 (quot row 3)) (* 3 (quot col 3))))
 
 (defn block-values [board coord]
-  (let [top-row (first (top-left-coord coord))
-        block-coords (coord-pairs (range top-row (+ top-row 3)))]
+  (let [top-corner-row (first (top-left-coord coord))
+        top-corner-col (second (top-left-coord coord))
+        block-coords (for [row (range top-corner-row (+ top-corner-row 3))
+                           col (range top-corner-col (+ top-corner-col 3))]
+                       (vector row col))]
     (into #{} (map #(value-at board %) block-coords))))
     
 (defn valid-values-for [board coord]
@@ -57,7 +60,10 @@
   nil)
 
 (defn blocks [board]
-  nil)
+  (let [all-corners (for [row [0 3 6]
+                          cols [0 3 6]]
+                      (vector row cols))]
+    (map #(block-values board %) all-corners)))
 
 (defn valid-blocks? [board]
   nil)
