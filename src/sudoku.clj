@@ -50,14 +50,17 @@
 (defn rows [board]
   (map #(into #{} %) board))
 
+(defn- all-valid? [values]
+  (every? true? (map #(empty? (set/difference all-values %)) values)))
+
 (defn valid-rows? [board]
-  nil)
+  (all-valid? (rows board)))
 
 (defn cols [board]
   (map #(col-values board (vector 0 %)) (range 9)))
 
 (defn valid-cols? [board]
-  nil)
+  (all-valid? (cols board)))
 
 (defn blocks [board]
   (let [all-corners (for [row [0 3 6]
@@ -66,10 +69,10 @@
     (map #(block-values board %) all-corners)))
 
 (defn valid-blocks? [board]
-  nil)
+  (all-valid? (blocks board)))
 
 (defn valid-solution? [board]
-  nil)
+  (and (valid-rows? board) (valid-cols? board) (valid-blocks? board)))
 
 (defn set-value-at [board coord new-value]
   nil)
