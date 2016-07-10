@@ -78,7 +78,16 @@
   (assoc-in board coord new-value))
 
 (defn find-empty-point [board]
-  nil)
+  (first (for [[x row] (map-indexed vector board)
+               [y val] (map-indexed vector row)
+               :when (= val 0)]
+           [x y])))
 
 (defn solve [board]
-  nil)
+  (first (filter #(not (nil? %))
+    (if (filled? board)
+      (if (valid-solution? board)
+        [board])
+      (let [point (find-empty-point board)]
+        (for [value (valid-values-for board point)]
+          (solve (set-value-at board point value))))))))
